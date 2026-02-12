@@ -20,20 +20,9 @@ import {
 } from "@/components/ui/navigation-menu";
 
 const navItems = [
-    {
-        title: "Features",
-        href: "/features",
-        hasDropdown: true,
-        subItems: [
-            { title: "Property Search", href: "/features/search" },
-            { title: "Virtual Tours", href: "/features/virtual-tours" },
-            { title: "Market Analytics", href: "/features/analytics" },
-            { title: "Agent Network", href: "/features/agents" },
-        ],
-    },
+    { title: "Home", href: "/" },
+    { title: "Properties", href: "/properties" },
     { title: "About Us", href: "/about" },
-    { title: "Pricing", href: "/pricing" },
-    { title: "FAQ", href: "/faq" },
     { title: "Contact", href: "/contact" },
 ];
 
@@ -52,11 +41,11 @@ export function Navbar() {
     return (
         <header
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-                    ? "bg-white/95 backdrop-blur-md shadow-sm border-b border-neutral-200/50"
-                    : "bg-white"
+                ? "bg-white backdrop-blur-sm shadow-sm border-b border-neutral-200/50"
+                : "bg-white"
                 }`}
         >
-            <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <nav className=" mx-auto px-4 sm:px-6 lg:px-8 bg-amber-500">
                 <div className="flex items-center justify-between h-16 lg:h-20">
                     {/* Logo */}
                     <Link
@@ -94,52 +83,27 @@ export function Navbar() {
                     <NavigationMenu className="hidden lg:flex">
                         <NavigationMenuList className="space-x-1">
                             {navItems.map((item) => (
-                                <NavigationMenuItem key={item.title}>
-                                    {item.hasDropdown ? (
-                                        <>
-                                            <NavigationMenuTrigger className="h-10 px-4 text-[15px] font-medium text-neutral-700 hover:text-neutral-900 hover:bg-neutral-50/80 data-[state=open]:bg-neutral-50 transition-all duration-200">
-                                                {item.title}
-                                            </NavigationMenuTrigger>
-                                            <NavigationMenuContent>
-                                                <ul className="grid w-[240px] gap-1 p-2">
-                                                    {item.subItems?.map((subItem) => (
-                                                        <li key={subItem.title}>
-                                                            <NavigationMenuLink asChild>
-                                                                <Link
-                                                                    href={subItem.href}
-                                                                    className="block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-neutral-50 hover:text-neutral-900 focus:bg-neutral-50"
-                                                                >
-                                                                    <div className="text-sm font-medium text-neutral-900">
-                                                                        {subItem.title}
-                                                                    </div>
-                                                                </Link>
-                                                            </NavigationMenuLink>
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            </NavigationMenuContent>
-                                        </>
-                                    ) : (
-                                        <Link
-                                            href={item.href}
-                                            className="inline-flex items-center justify-center h-10 px-4 text-[15px] font-medium text-neutral-700 hover:text-neutral-900 hover:bg-neutral-50/80 rounded-md transition-all duration-200"
-                                        >
-                                            {item.title}
-                                        </Link>
-                                    )}
-                                </NavigationMenuItem>
+                                <li key={item.title}>
+                                    <Link
+                                        href={item.href}
+                                        className="text-[15px] font-medium text-neutral-700 hover:text-neutral-900 hover:bg-neutral-50/80 rounded-md transition-colors px-3 py-2"
+                                    >
+                                        {item.title}
+                                    </Link>
+                                </li>
                             ))}
                         </NavigationMenuList>
                     </NavigationMenu>
 
                     {/* Desktop Login Button */}
                     <div className="hidden lg:flex items-center space-x-4">
+                        <Button variant="default" size="sm" className="bg-neutral-900 text-white hover:bg-neutral-800">
+                            Login
+                        </Button>
                         <Button
-                            asChild
-                            variant="ghost"
-                            className="text-[15px] font-medium text-neutral-700 hover:text-neutral-900 hover:bg-neutral-50/80"
-                        >
-                            <Link href="/login">Login</Link>
+                        onClick={() => alert("Sign up functionality coming soon!")}
+                         variant="default" size="sm" className="bg-neutral-900 text-white hover:bg-neutral-800">
+                            Sign up
                         </Button>
                     </div>
 
@@ -199,34 +163,15 @@ export function Navbar() {
                                     <nav className="flex flex-col space-y-1 px-4">
                                         {navItems.map((item) => (
                                             <div key={item.title} className="border-b border-neutral-100 last:border-0">
-                                                {item.hasDropdown ? (
-                                                    <details className="group">
-                                                        <summary className="flex items-center justify-between py-4 px-2 text-base font-medium text-neutral-900 cursor-pointer hover:bg-neutral-50 rounded-md transition-colors list-none">
-                                                            <span>{item.title}</span>
-                                                            <ChevronDown className="h-5 w-5 text-neutral-500 transition-transform duration-200 group-open:rotate-180" />
-                                                        </summary>
-                                                        <div className="pl-4 pb-2 space-y-1">
-                                                            {item.subItems?.map((subItem) => (
-                                                                <Link
-                                                                    key={subItem.title}
-                                                                    href={subItem.href}
-                                                                    className="block py-3 px-3 text-sm text-neutral-700 hover:text-neutral-900 hover:bg-neutral-50 rounded-md transition-colors"
-                                                                    onClick={() => setIsOpen(false)}
-                                                                >
-                                                                    {subItem.title}
-                                                                </Link>
-                                                            ))}
-                                                        </div>
-                                                    </details>
-                                                ) : (
+                                                <li className="py-2">
                                                     <Link
                                                         href={item.href}
-                                                        className="flex items-center py-4 px-2 text-base font-medium text-neutral-900 hover:bg-neutral-50 rounded-md transition-colors"
+                                                        className="text-[15px] font-medium text-neutral-700 hover:text-neutral-900 hover:bg-neutral-50/80 rounded-md transition-colors px-3 py-2"
                                                         onClick={() => setIsOpen(false)}
                                                     >
                                                         {item.title}
                                                     </Link>
-                                                )}
+                                                </li>
                                             </div>
                                         ))}
                                     </nav>

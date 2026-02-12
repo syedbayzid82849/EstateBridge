@@ -124,3 +124,6 @@
     @apply bg-background text-foreground;
   }
 }
+.heroSection {
+  background-image: url("/hero-bg.jpg");
+}
