@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
-    <div className="mt-20 border h-screen flex flex-col items-center justify-center">
+    <div className="mt-8 border flex flex-col items-center justify-center">
       <h1 className="text-4xl font-bold text-center mt-10">
         Welcome to EstateBridge 
         Welcome to EstateBridge 
