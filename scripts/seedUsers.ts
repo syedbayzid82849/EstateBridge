@@ -41,13 +41,14 @@ async function seedUsers() {
             createdAt: new Date(),
         },
         {
-            username: ADMIN_USERNAME,
-            email: ADMIN_EMAIL,
+            username: USER_USERNAME,
+            email: USER_EMAIL,
             role: "USER",
             password: hashedUserPassword,
             createdAt: new Date(),
         },
     ]);
+
 
     console.log("Admin and User seeded successfully");
 }
