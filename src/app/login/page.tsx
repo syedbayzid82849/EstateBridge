@@ -16,11 +16,24 @@ export default function LoginPage() {
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isSubmitting },
     } = useForm<LoginFormData>();
 
     const onSubmit = async (data: LoginFormData) => {
         console.log('Login data:', data);
+        const res = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+        const result = await res.json();
+        if (result.token) {
+            alert('Login successful! Token: ' + result.token);
+        } else {
+            alert('Login failed: ' + result.message);
+        }
     };
 
     return (
@@ -173,7 +186,7 @@ export default function LoginPage() {
                         {/* Create Account Link */}
                         <div className="text-center pt-4">
                             <p className="text-neutral-600">
-                                Don't have an account?{' '}
+                                Do not have an account?{' '}
                                 <a
                                     href="/register"
                                     className="text-teal-700 font-semibold hover:text-teal-800 transition-colors"
