@@ -1,7 +1,7 @@
 import React from 'react'
 
-export default function deshboard() {
+export default function Dashboard() {
   return (
-    <div>deshboard</div>
+    <div>Dashboard</div>
   )
 }
