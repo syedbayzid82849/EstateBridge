@@ -16,14 +16,11 @@ export default function LoginPage() {
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitting },
+        formState: { errors },
     } = useForm<LoginFormData>();
 
     const onSubmit = async (data: LoginFormData) => {
-        // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 1000));
         console.log('Login data:', data);
-        // Handle login logic here
     };
 
     return (
