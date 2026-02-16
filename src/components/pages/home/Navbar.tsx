@@ -8,7 +8,7 @@ import {
     Sheet,
     SheetContent,
     SheetTrigger,
-    SheetClose,
+    
 } from "@/components/ui/sheet";
 import {
     NavigationMenu,
@@ -110,8 +110,8 @@ export function Navbar() {
                                 <DropdownMenuContent align="end" className="w-56">
                                     <DropdownMenuLabel>
                                         <div className="flex flex-col space-y-1">
-                                            <p className="text-sm font-medium">{user.username}</p>
-                                            <p className="text-xs text-muted-foreground">{user.email}</p>
+                                            <p className="text-sm font-medium">{user?.username}</p>
+                                            <p className="text-xs text-muted-foreground">{user?.email}</p>
                                         </div>
                                     </DropdownMenuLabel>
                                     <DropdownMenuSeparator />
@@ -176,12 +176,34 @@ export function Navbar() {
                                     </Link>
                                 ))}
                                 <hr className="border-white/10" />
-                                <Link href="/login" >
-                                    <Button variant="ghost" className="text-white hover:text-secondary w-full">login</Button>
-                                </Link>
-                                <Link href="/register" >
-                                    <Button className="bg-secondary text-primary w-full">Get Started</Button>
-                                </Link>
+                                {loading ? (
+                                    // Loading skeleton
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-20 h-10 bg-white/10 animate-pulse rounded-lg"></div>
+                                        <div className="w-24 h-10 bg-white/10 animate-pulse rounded-lg"></div>
+                                    </div>  
+                                ) : isAuthenticated ? (
+                                    <>
+                                        <Link href="/dashboard" className="text-lg font-medium hover:text-secondary" onClick={() => setIsOpen(false)}>
+                                            Dashboard
+                                        </Link>
+                                        <Link href="/profile" className="text-lg font-medium hover:text-secondary" onClick={() => setIsOpen(false)}>
+                                            Profile 
+                                        </Link>
+                                        <Button variant="outline" className="w-full mt-4 text-red-600 border-red-600" onClick={() => { logout(); setIsOpen(false); }}>
+                                            Logout
+                                        </Button>
+                                    </>
+                                ) : (
+                                    <>  
+                                        <Link href="/login" className="text-lg font-medium hover:text-secondary" onClick={() => setIsOpen(false)}>
+                                            Sign In
+                                        </Link> 
+                                        <Link href="/register" className="text-lg font-medium hover:text-secondary" onClick={() => setIsOpen(false)}>
+                                            Get Started
+                                        </Link>
+                                    </>
+                                )}  
 
                             </div>
                         </SheetContent>

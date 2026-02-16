@@ -5,6 +5,9 @@ import { useForm } from 'react-hook-form';
 import { Eye, EyeOff, Mail, Lock, User, Building2, Github } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { form } from 'framer-motion/client';
+import { useRouter } from 'next/navigation';
+import { setToken } from '@/lib/token';
 
 type SignupFormData = {
   fullName: string;
@@ -14,17 +17,39 @@ type SignupFormData = {
 
 export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useRouter();
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<SignupFormData>();
 
   const onSubmit = async (data: SignupFormData) => {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log('Signup data:', data);
-    // Handle signup logic here
+    try {
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: data.fullName,
+          email: data.email,
+          password: data.password,
+        }),
+      });
+      const result = await response.json();
+      if (response.ok) {
+        setToken(result.token);
+        alert('Registration successful!');
+        navigate.push('/dashboard');
+        reset();
+      } else {
+        alert('Registration failed: ' + result.error);
+        
+      }
+    } catch (error) {
+      console.error('Error during registration:', error);
+      alert('An error occurred during registration.');
+    }
   };
 
   const handleSocialLogin = (provider: string) => {
