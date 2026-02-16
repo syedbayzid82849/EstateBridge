@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { properties } from "@/date/properties";
+import { properties } from "@/data/properties";
 import PropertyCard from "@/components/cards/PropertyCard";
 
 const FeaturedProperties = () => {

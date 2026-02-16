@@ -18,4 +18,5 @@ else {
     client = new mongodb_1.MongoClient(uri);
     clientPromise = client.connect();
 }
+clientPromise.then(function () { return console.log("✅ MongoDB connected successfully"); });
 exports.default = clientPromise;

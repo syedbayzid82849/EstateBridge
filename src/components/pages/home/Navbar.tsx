@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Menu } from "lucide-react";
+import { LayoutDashboard, LogOut, Menu, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
     Sheet,
@@ -14,6 +14,8 @@ import {
     NavigationMenu,
     NavigationMenuList,
 } from "@/components/ui/navigation-menu";
+import { useAuth } from "@/app/hooks/useAuth";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 const navItems = [
     { title: "Home", href: "/" },
@@ -25,6 +27,14 @@ const navItems = [
 export function Navbar() {
     const [isOpen, setIsOpen] = React.useState(false);
     const [scrolled, setScrolled] = React.useState(false);
+    const { isAuthenticated, logout, loading, user } = useAuth();
+
+
+    if (isAuthenticated) {
+        console.log("User is authenticated:", isAuthenticated);
+    } else {
+        console.log("User is not authenticated");
+    }
 
     React.useEffect(() => {
         const handleScroll = () => {
@@ -75,18 +85,75 @@ export function Navbar() {
 
                     {/* Desktop Buttons */}
                     <div className="hidden lg:flex items-center space-x-4">
-                        <Link href="/login">
-                            <Button variant="ghost" className="text-white hover:text-secondary hover:bg-white/10">
-                                Sign In
-                            </Button>
-                        </Link>
-                        <Link href="/register">
-                            <Button
-                                className="bg-secondary text-primary font-bold hover:bg-secondary/90 border-none px-6"
-                            >
-                                Get Started
-                            </Button>
-                        </Link>
+                        {loading ? (
+                            // Loading skeleton
+                            <div className="flex items-center gap-2">
+                                <div className="w-20 h-10 bg-white/10 animate-pulse rounded-lg"></div>
+                                <div className="w-24 h-10 bg-white/10 animate-pulse rounded-lg"></div>
+                            </div>
+                        ) : isAuthenticated ? (
+                            // ✅ LOGGED IN - Show User Dropdown
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button
+                                        variant="ghost"
+                                        className="text-white hover:text-secondary hover:bg-white/10 flex items-center gap-2"
+                                    >
+                                        <div className="w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
+                                            <span className="text-primary font-bold text-sm">
+                                                {user?.username.charAt(0).toUpperCase()}
+                                            </span>
+                                        </div>
+                                        <span className="font-medium">{user?.username}</span>
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end" className="w-56">
+                                    <DropdownMenuLabel>
+                                        <div className="flex flex-col space-y-1">
+                                            <p className="text-sm font-medium">{user.username}</p>
+                                            <p className="text-xs text-muted-foreground">{user.email}</p>
+                                        </div>
+                                    </DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem asChild>
+                                        <Link href="/dashboard" className="cursor-pointer">
+                                            <LayoutDashboard className="mr-2 h-4 w-4" />
+                                            Dashboard
+                                        </Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem asChild>
+                                        <Link href="/profile" className="cursor-pointer">
+                                            <User className="mr-2 h-4 w-4" />
+                                            Profile
+                                        </Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem
+                                        onClick={logout}
+                                        className="text-red-600 cursor-pointer"
+                                    >
+                                        <LogOut className="mr-2 h-4 w-4" />
+                                        Logout
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        ) : (
+                            // ❌ NOT LOGGED IN - Show Login/Register
+                            <>
+                                <Link href="/login">
+                                    <Button variant="ghost" className="text-white hover:text-secondary hover:bg-white/10">
+                                        Sign In
+                                    </Button>
+                                </Link>
+                                <Link href="/register">
+                                    <Button
+                                        className="bg-secondary text-primary font-bold hover:bg-secondary/90 border-none px-6"
+                                    >
+                                        Get Started
+                                    </Button>
+                                </Link>
+                            </>
+                        )}
                     </div>
 
                     {/* Mobile Menu Trigger */}

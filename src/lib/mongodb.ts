@@ -7,6 +7,8 @@ if (!uri) {
 }
 
 declare global {
+    // Allow global variable in dev to prevent multiple connections
+    // eslint-disable-next-line no-var
     var _mongoClientPromise: Promise<MongoClient> | undefined;
 }
 
@@ -23,5 +25,7 @@ if (process.env.NODE_ENV === "development") {
     client = new MongoClient(uri);
     clientPromise = client.connect();
 }
+
+clientPromise.then(() => console.log("✅ MongoDB connected successfully"));
 
 export default clientPromise;

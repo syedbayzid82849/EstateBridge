@@ -1,66 +1,80 @@
 import { mongoConnect } from "@/lib/mongoConnect";
-import bcrypt from "bcrypt";
+import * as bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 const JWT_SECRET = process.env.JWT_SECRET as string;
-if (!JWT_SECRET) {
-    throw new Error("JWT_SECRET environment variable is not defined");
-}
+if (!JWT_SECRET) throw new Error("Please add JWT_SECRET in .env");
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
     try {
-        const {client, db } = await mongoConnect();
+        const { client, db } = await mongoConnect();
         const { email, password } = await req.json();
 
-        // find user
-        const user = await db.collection("users").findOne({ email });
-
-        if (!user) {
+        if (!email || !password) {
+            //   client.close();
             return NextResponse.json(
-                { message: "User not found" },
-                { status: 404 }
+                { error: "Email and password are required" },
+                { status: 400 }
             );
         }
 
-        // check password
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-
-        if (!isPasswordValid) {
+        // Find user
+        const user = await db.collection("users").findOne({ email });
+        if (!user) {
+            //   client.close();
             return NextResponse.json(
-                { message: "Invalid password" },
+                { error: "Invalid credentials" },
                 { status: 401 }
             );
         }
 
-        // generate jwr 
+        // Compare password
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            //   client.close();
+            return NextResponse.json(
+                { error: "Invalid credentials" },
+                { status: 401 }
+            );
+        }
+
+        // Generate JWT
         const token = jwt.sign(
-            { 
-                id: user._id, 
-                email: user.email, 
-                role: user.role 
-            },
+            { id: user._id.toString(), email: user.email, role: user.role },
             JWT_SECRET,
             { expiresIn: "7d" }
         );
 
-        // success
-        const res = NextResponse.json(
-            {
-                message: "Login successful",
-                token,
-                user: {
-                    id: user._id,
-                    username: user.username,
-                    email: user.email,
-                    role: user.role
-                },
+        const res = NextResponse.json({
+            message: "Login successful",
+            token,
+            user: {
+                id: user._id,
+                username: user.username,
+                email: user.email,
+                role: user.role,
             },
-        );
+        });
+
+        // client.close()
+
+        // Set cookie options
+        res.cookies.set({
+            name: "token",
+            value: token,
+            httpOnly: true, // cannot be accessed by JS
+            path: "/", // cookie valid for all routes
+            maxAge: 60 * 60 * 24, // 1 day in seconds
+            sameSite: "strict", // security
+            secure: process.env.NODE_ENV === "production",
+        });
+
         return res;
     } catch (error) {
+        console.error(error);
         return NextResponse.json(
-            { message: "Internal server error" },
+            { error: "Something went wrong" },
             { status: 500 }
         );
     }
