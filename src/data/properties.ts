@@ -1,6 +1,6 @@
-import { Property } from "@/types/property";
+import { TProperty } from "@/types/property";
 
-export const properties: Property[] = [
+export const properties: TProperty[] = [
     {
         id: "1",
         title: "Luxurious Modern Villa",
@@ -17,7 +17,6 @@ export const properties: Property[] = [
         description: "Stunning modern villa with panoramic views, infinity pool, and smart home technology throughout.",
         amenities: ["Pool", "Gym", "Garden", "Smart Home", "Garage"],
         yearBuilt: 2022,
-        agent: { name: "Sarah Mitchell", phone: "+1 310-555-0142", image: "" },
     },
     {
         id: "2",
@@ -35,7 +34,6 @@ export const properties: Property[] = [
         description: "Breathtaking penthouse with floor-to-ceiling windows and unobstructed city views.",
         amenities: ["Doorman", "Rooftop", "Gym", "Concierge"],
         yearBuilt: 2020,
-        agent: { name: "James Rodriguez", phone: "+1 212-555-0198", image: "" },
     },
     {
         id: "3",
@@ -53,7 +51,6 @@ export const properties: Property[] = [
         description: "Beautiful beachfront cottage just steps from the sand. Perfect weekend retreat.",
         amenities: ["Beach Access", "Deck", "Fireplace", "Garden"],
         yearBuilt: 2018,
-        agent: { name: "Emily Chen", phone: "+1 424-555-0167", image: "" },
     },
     {
         id: "4",
@@ -71,7 +68,6 @@ export const properties: Property[] = [
         description: "Industrial-chic loft with exposed brick, high ceilings, and modern finishes.",
         amenities: ["Rooftop", "Laundry", "Bike Storage", "Pet Friendly"],
         yearBuilt: 2019,
-        agent: { name: "Michael Park", phone: "+1 312-555-0134", image: "" },
     },
     {
         id: "5",
@@ -89,7 +85,6 @@ export const properties: Property[] = [
         description: "Magnificent estate on 3 acres with tennis court, pool house, and manicured gardens.",
         amenities: ["Pool", "Tennis Court", "Wine Cellar", "Home Theater", "Guest House"],
         yearBuilt: 2021,
-        agent: { name: "Victoria Adams", phone: "+1 203-555-0189", image: "" },
     },
     {
         id: "6",
@@ -107,7 +102,6 @@ export const properties: Property[] = [
         description: "Modern condo in the heart of downtown with balcony views and premium amenities.",
         amenities: ["Pool", "Gym", "Concierge", "Parking"],
         yearBuilt: 2023,
-        agent: { name: "David Kim", phone: "+1 512-555-0156", image: "" },
     },
     {
         id: "7",
@@ -125,7 +119,6 @@ export const properties: Property[] = [
         description: "Gorgeous Mediterranean-style townhouse with private courtyard and rooftop terrace.",
         amenities: ["Courtyard", "Rooftop", "Pool", "Smart Home"],
         yearBuilt: 2020,
-        agent: { name: "Isabella Torres", phone: "+1 305-555-0178", image: "" },
     },
     {
         id: "8",
@@ -143,7 +136,6 @@ export const properties: Property[] = [
         description: "Stunning mountain retreat with wraparound deck and panoramic Rocky Mountain views.",
         amenities: ["Fireplace", "Deck", "Hot Tub", "Hiking Trails"],
         yearBuilt: 2017,
-        agent: { name: "Robert Hayes", phone: "+1 720-555-0145", image: "" },
     },
 ];
 

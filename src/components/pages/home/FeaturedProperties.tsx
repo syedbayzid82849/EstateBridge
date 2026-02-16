@@ -1,14 +1,43 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { properties } from "@/data/properties";
 import PropertyCard from "@/components/cards/PropertyCard";
 
 const FeaturedProperties = () => {
-    const featured = properties.filter((p) => p.featured).slice(0, 4);
+    const [featured, setFeatured] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        fetchFeaturedProperties();
+    }, []);
+
+    const fetchFeaturedProperties = async () => {
+        setLoading(true);
+        try {
+            const response = await fetch(
+                'http://localhost:3000/api/properties'
+            );
+
+            if (!response.ok) throw new Error('Failed to fetch properties');
+
+            const data = await response.json();
+
+            // ✅ Shudhu 6 ta featured property show korbe
+            const featuredOnly = data.filter((property: any) => property.featured);
+            setFeatured(featuredOnly.slice(0, 6)); // ⭐ Ekhane limit add korchi
+
+        } catch (err: any) {
+            setError(err.message);
+            console.error('Error:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <section className="py-20 bg-background">
@@ -33,15 +62,48 @@ const FeaturedProperties = () => {
                     </p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {featured.map((property, i) => (
-                        <PropertyCard
-                            key={property.id}
-                            property={property}
-                            index={i}
-                        />
-                    ))}
-                </div>
+                {/* Loading State - 6 ta skeleton */}
+                {loading && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {[1, 2, 3, 4, 5, 6].map((i) => (
+                            <div key={i} className="animate-pulse">
+                                <div className="bg-muted h-64 rounded-xl"></div>
+                                <div className="mt-4 space-y-2">
+                                    <div className="h-4 bg-muted rounded w-3/4"></div>
+                                    <div className="h-4 bg-muted rounded w-1/2"></div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
+                {/* Error State */}
+                {error && (
+                    <div className="text-center py-12 text-red-500">
+                        Error loading properties: {error}
+                    </div>
+                )}
+
+                {/* Properties Grid */}
+                {!loading && !error && (
+                    <>
+                        {featured.length === 0 ? (
+                            <div className="text-center py-12 text-muted-foreground">
+                                No featured properties available
+                            </div>
+                        ) : (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {featured.map((property, i) => (
+                                    <PropertyCard
+                                        key={property._id || property.id}
+                                        property={property}
+                                        index={i}
+                                    />
+                                ))}
+                            </div>
+                        )}
+                    </>
+                )}
 
                 <div className="text-center mt-12">
                     <Button variant="outline" size="lg" asChild className="rounded-xl">

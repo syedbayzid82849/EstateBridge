@@ -1,4 +1,5 @@
 import { mongoConnect } from "@/lib/mongoConnect";
+import { TProperty } from "@/types/property";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
@@ -38,3 +39,59 @@ export async function GET() {
 }
 
 
+// Post request handler for creating a new property (for admin users)
+export async function POST(req: NextRequest) {
+    try {
+        const { db } = await mongoConnect();
+        const propertyData: TProperty = await req.json();
+
+        // Validation
+        if (!propertyData.title || !propertyData.price || !propertyData.location || !propertyData.city) {
+            return NextResponse.json(
+                { error: "Missing required fields" },
+                { status: 400 }
+            );
+        }
+
+        // Create property document for MongoDB
+        const propertyDocument = {
+            title: propertyData.title,
+            price: propertyData.price,
+            location: propertyData.location,
+            city: propertyData.city,
+            bedrooms: propertyData.bedrooms,
+            bathrooms: propertyData.bathrooms,
+            area: propertyData.area,
+            image: propertyData.image,
+            type: propertyData.type,
+            propertyType: propertyData.propertyType,
+            featured: propertyData.featured || false,
+            description: propertyData.description,
+            amenities: propertyData.amenities || [],
+            yearBuilt: propertyData.yearBuilt,
+            userEmail: propertyData.userEmail,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            status: "available" as const,
+        };
+
+        // Insert into MongoDB
+        const result = await db.collection("properties").insertOne(propertyDocument);
+
+        // ✅ Return success response
+        return NextResponse.json(
+            {
+                success: true,
+                message: "Property created successfully",
+                propertyId: result.insertedId.toString(),
+            },
+            { status: 201 }
+        );
+    } catch (error) {
+        console.error("Error creating property:", error);
+        return NextResponse.json(
+            { error: "Failed to create property" },
+            { status: 500 }
+        );
+    }
+}
