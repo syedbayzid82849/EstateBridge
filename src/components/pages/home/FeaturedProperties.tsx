@@ -1,16 +1,16 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import PropertyCard from "@/components/cards/PropertyCard";
+import { TProperty } from "@/types/property";
 
 const FeaturedProperties = () => {
-    const [featured, setFeatured] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [featured, setFeatured] = useState<TProperty[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         fetchFeaturedProperties();
@@ -20,16 +20,17 @@ const FeaturedProperties = () => {
         setLoading(true);
         try {
             const response = await fetch(
-                'http://localhost:3000/api/properties'
+                '/api/properties'
             );
 
             if (!response.ok) throw new Error('Failed to fetch properties');
 
             const data = await response.json();
+            setFeatured(data);
 
             // ✅ Shudhu 6 ta featured property show korbe
-            const featuredOnly = data.filter((property: any) => property.featured);
-            setFeatured(featuredOnly.slice(0, 6)); // ⭐ Ekhane limit add korchi
+            // const featuredOnly = data.filter((property: any) => property.featured);
+            // setFeatured(featuredOnly.slice(0, 6)); // ⭐ Ekhane limit add korchi
 
         } catch (err: any) {
             setError(err.message);

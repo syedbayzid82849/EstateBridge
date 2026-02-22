@@ -1,5 +1,5 @@
 import { mongoConnect } from "@/lib/mongoConnect";
-import * as bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 

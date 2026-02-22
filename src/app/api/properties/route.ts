@@ -4,40 +4,26 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
     try {
-        const { client, db } = await mongoConnect();
+        const { db } = await mongoConnect();
         const properties = await db.collection("properties").find({}).toArray();
+
+        // ✅ _id → id convert + price fallback
         const formattedProperties = properties.map((property) => ({
-            id: property._id.toString(),
-            title: property.title,
-            price: property.price,
-            location: property.location,
-            city: property.city,
-            bedrooms: property.bedrooms,
-            bathrooms: property.bathrooms,
-            area: property.area,
-            image: property.image,
-            type: property.type,
-            propertyType: property.propertyType,
-            featured: property.featured,
-            description: property.description,
-            amenities: property.amenities,
-            yearBuilt: property.yearBuilt,
-            status: property.status,
-            ownerId: property.ownerId,
-            createdAt: property.createdAt?.toISOString(),
-            updatedAt: property.updatedAt?.toISOString(),
+            ...property,
+            id: property?._id.toString(),
+            _id: property?._id.toString(),
+            price: property?.price ?? property?.price_usd ?? 0,
         }));
-        // client.close();
-        return NextResponse.json(formattedProperties, {
-            status: 200,
-        });
-    }
-    catch (error) {
+
+        return NextResponse.json(formattedProperties, { status: 200 });
+    } catch (error) {
         console.error("Error fetching properties:", error);
-        return new Response(JSON.stringify({ error: "Failed to fetch properties" }), { status: 500 });
+        return new Response(
+            JSON.stringify({ error: "Failed to fetch properties" }),
+            { status: 500 }
+        );
     }
 }
-
 
 // Post request handler for creating a new property (for admin users)
 export async function POST(req: NextRequest) {
@@ -69,10 +55,10 @@ export async function POST(req: NextRequest) {
             description: propertyData.description,
             amenities: propertyData.amenities || [],
             yearBuilt: propertyData.yearBuilt,
-            userEmail: propertyData.userEmail,
+            ownerId: propertyData.ownerId,
+            status: "available" as const,
             createdAt: new Date(),
             updatedAt: new Date(),
-            status: "available" as const,
         };
 
         // Insert into MongoDB

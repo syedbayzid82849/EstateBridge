@@ -1,14 +1,13 @@
 "use client";
-
 import Link from "next/link";
-import Image from "next/image";
 import { MapPin, Bed, Bath, Maximize } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Property } from "@/types/property";
+import { TProperty } from "@/types/property";
+import Image from "next/image";
 
 interface PropertyCardProps {
-    property: Property;
+    property: TProperty;
     index?: number;
 }
 
@@ -20,8 +19,8 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
                 {/* Image Section */}
                 <div className="relative aspect-[4/3] overflow-hidden">
                     <Image
-                        src={property.image}
-                        alt={property.title}
+                        src={property?.image || "/placeholder.jpg"}
+                        alt={property?.title || "Property Image" }
                         fill
                         className="object-cover transition-transform duration-700 group-hover:scale-110"
                     />
@@ -41,7 +40,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
 
                     {/* Price */}
                     <div className="absolute bottom-3 right-3 rounded-lg bg-background/90 px-3 py-1 text-lg font-semibold backdrop-blur">
-                        ${property.price.toLocaleString()}
+                        ${(property.price ?? 0).toLocaleString()}
                     </div>
                 </div>
 

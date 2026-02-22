@@ -1,5 +1,3 @@
-// src/app/types/properties.ts
-
 export type PropertyType = "villa" | "apartment" | "house" | "condo" | "townhouse" | "office";
 export type ListingType = "sale" | "rent";
 export type PropertyStatus = "available" | "sold" | "rented" | "pending";
@@ -7,23 +5,25 @@ export type PropertyStatus = "available" | "sold" | "rented" | "pending";
 export interface TProperty {
     _id?: string;
     id?: string;
-    title: string;
-    price: number;
-    location: string;
+    title?: string;
+    price?: number;
+    price_usd?: number;
+    price_local?: number;
+    currency?: string;
+    location?: string;
     city: string;
-    bedrooms: number;
-    bathrooms: number;
-    area: number; // in square meters or square feet
-    image: string;
-    type: ListingType;
-    propertyType: PropertyType;
-    featured: boolean;
-    description: string;
-    
-    amenities: string[];
-    yearBuilt: number;
+    country?: string;
+    bedrooms?: number;
+    bathrooms?: number;
+    area?: number; // in square meters or square feet
+    image?: string;
+    type?: ListingType;
+    propertyType?: PropertyType;
+    featured?: boolean;
+    description?: string;
+    amenities?: string[];
+    yearBuilt?: number;
     status?: PropertyStatus;
-    userEmail?: string;
     ownerId?: string;
     createdAt?: string | Date;
     updatedAt?: string | Date;
@@ -34,17 +34,20 @@ export interface PropertyFormData {
     price: number;
     location: string;
     city: string;
-    bedrooms: number;
-    bathrooms: number;
-    area: number;
-    image: string;
+    country?: string;
+    bedrooms?: number;
+    bathrooms?: number;
+    area?: number;
+    image?: string;
     type: ListingType;
     propertyType: PropertyType;
-    featured: boolean;
-    description: string;
-    amenities: string[];
-    yearBuilt: number;
+    featured?: boolean;
+    description?: string;
+    amenities?: string[];
+    yearBuilt?: number;
     status?: PropertyStatus;
+    ownerId?: string;
+
 }
 
 export interface PropertyFilters {
