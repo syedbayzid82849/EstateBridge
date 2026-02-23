@@ -8,7 +8,7 @@ import {
     Sheet,
     SheetContent,
     SheetTrigger,
-    
+
 } from "@/components/ui/sheet";
 import {
     NavigationMenu,
@@ -16,6 +16,8 @@ import {
 } from "@/components/ui/navigation-menu";
 import { useAuth } from "@/app/hooks/useAuth";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { useEffect } from "react";
+import Swal from "sweetalert2";
 
 const navItems = [
     { title: "Home", href: "/" },
@@ -36,13 +38,38 @@ export function Navbar() {
         console.log("User is not authenticated");
     }
 
-    React.useEffect(() => {
+    useEffect(() => {
         const handleScroll = () => {
             setScrolled(window.scrollY > 20);
         };
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
+
+    const handleLogout = async () => {
+        const result = await Swal.fire({
+            title: "Are you sure?",
+            text: "You will be logged out of your account.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#6b7280",
+            confirmButtonText: "Yes, Logout",
+            cancelButtonText: "Cancel"
+        });
+
+        if (result.isConfirmed) {
+            await Swal.fire({
+                title: "Logged Out!",
+                text: "You have been successfully logged out.",
+                icon: "success",
+                timer: 1500,
+                showConfirmButton: false
+            });
+
+            logout(); // 🔥 call your existing logout
+        }
+    };
 
     return (
         <header
@@ -129,7 +156,7 @@ export function Navbar() {
                                     </DropdownMenuItem>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem
-                                        onClick={logout}
+                                        onClick={handleLogout}
                                         className="text-red-600 cursor-pointer"
                                     >
                                         <LogOut className="mr-2 h-4 w-4" />
@@ -181,29 +208,29 @@ export function Navbar() {
                                     <div className="flex items-center gap-2">
                                         <div className="w-20 h-10 bg-white/10 animate-pulse rounded-lg"></div>
                                         <div className="w-24 h-10 bg-white/10 animate-pulse rounded-lg"></div>
-                                    </div>  
+                                    </div>
                                 ) : isAuthenticated ? (
                                     <>
                                         <Link href="/dashboard" className="text-lg font-medium hover:text-secondary" onClick={() => setIsOpen(false)}>
                                             Dashboard
                                         </Link>
                                         <Link href="/profile" className="text-lg font-medium hover:text-secondary" onClick={() => setIsOpen(false)}>
-                                            Profile 
+                                            Profile
                                         </Link>
-                                        <Button variant="outline" className="w-full mt-4 text-red-600 border-red-600" onClick={() => { logout(); setIsOpen(false); }}>
+                                        <Button variant="outline" className="w-full mt-4 text-red-600 border-red-600" onClick={() => { handleLogout(); setIsOpen(false); }}>
                                             Logout
                                         </Button>
                                     </>
                                 ) : (
-                                    <>  
+                                    <>
                                         <Link href="/login" className="text-lg font-medium hover:text-secondary" onClick={() => setIsOpen(false)}>
                                             Sign In
-                                        </Link> 
+                                        </Link>
                                         <Link href="/register" className="text-lg font-medium hover:text-secondary" onClick={() => setIsOpen(false)}>
                                             Get Started
                                         </Link>
                                     </>
-                                )}  
+                                )}
 
                             </div>
                         </SheetContent>

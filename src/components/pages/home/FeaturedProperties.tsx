@@ -19,18 +19,14 @@ const FeaturedProperties = () => {
     const fetchFeaturedProperties = async () => {
         setLoading(true);
         try {
-            const response = await fetch(
-                '/api/properties'
-            );
-
+            const response = await fetch('/api/properties');
             if (!response.ok) throw new Error('Failed to fetch properties');
 
-            const data = await response.json();
-            setFeatured(data);
+            const data: TProperty[] = await response.json();
 
-            // ✅ Shudhu 6 ta featured property show korbe
-            // const featuredOnly = data.filter((property: any) => property.featured);
-            // setFeatured(featuredOnly.slice(0, 6)); // ⭐ Ekhane limit add korchi
+            // Filter only featured properties and take first 6
+            const featuredOnly = data.filter((property) => property.featured);
+            setFeatured(featuredOnly.slice(0, 6));
 
         } catch (err: any) {
             setError(err.message);

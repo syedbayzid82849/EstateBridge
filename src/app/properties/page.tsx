@@ -4,7 +4,7 @@ import PropertyCard from "@/components/cards/PropertyCard";
 import { TProperty } from "@/types/property";
 import { useEffect, useState } from "react";
 
-const PropertiesPage: React.FC = () => {
+const PropertiesPage = () => {
     const [properties, setProperties] = useState<TProperty[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -18,7 +18,7 @@ const PropertiesPage: React.FC = () => {
 
     if (loading) {
         return (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[1, 2, 3, 4, 5, 6].map((i) => (
                     <div key={i} className="animate-pulse">
                         <div className="bg-muted h-64 rounded-xl"></div>

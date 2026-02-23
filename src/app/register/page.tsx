@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { form } from 'framer-motion/client';
 import { useRouter } from 'next/navigation';
 import { setToken } from '@/lib/token';
+import toast from 'react-hot-toast';
 
 type SignupFormData = {
   fullName: string;
@@ -39,16 +40,16 @@ export default function SignupPage() {
       const result = await response.json();
       if (response.ok) {
         setToken(result.token);
-        alert('Registration successful!');
+        toast.success('Registration successful!');
         navigate.push('/dashboard');
         reset();
       } else {
-        alert('Registration failed: ' + result.error);
+        toast.error('Registration failed: ' + result.error);
         
       }
     } catch (error) {
       console.error('Error during registration:', error);
-      alert('An error occurred during registration.');
+      toast.error('An error occurred during registration.');
     }
   };
 

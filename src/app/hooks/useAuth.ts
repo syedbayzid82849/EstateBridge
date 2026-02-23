@@ -12,9 +12,9 @@ interface User {
 }
 
 export function useAuth() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [user, setUser] = useState<User | null>(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState<boolean>(true);
     const router = useRouter();
 
     // Check token and decode user info on mount
