@@ -28,8 +28,8 @@ const FeaturedProperties = () => {
             const featuredOnly = data.filter((property) => property.featured);
             setFeatured(featuredOnly.slice(0, 6));
 
-        } catch (err: any) {
-            setError(err.message);
+        } catch (err) {
+            setError((err as Error).message);
             console.error('Error:', err);
         } finally {
             setLoading(false);
