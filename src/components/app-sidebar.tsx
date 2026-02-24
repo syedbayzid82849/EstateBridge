@@ -1,207 +1,131 @@
-import * as React from "react"
-import { GalleryVerticalEnd } from "lucide-react"
+"use client"
 
+import * as React from "react"
+import {
+  ArrowLeft,
+  BookOpen,
+  Bot,
+  GalleryVerticalEnd,
+  Home,
+  Settings2,
+  SquareTerminal,
+} from "lucide-react"
+
+import { NavMain } from "@/components/nav-main"
+import { NavUser } from "@/components/nav-user"
 import {
   Sidebar,
   SidebarContent,
-  SidebarGroup,
+  SidebarFooter,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import Link from "next/link"
+import { Button } from "./ui/button"
 
 // This is sample data.
 const data = {
+  user: {
+    name: "shadcn",
+    email: "m@example.com",
+    avatar: "/avatars/shadcn.jpg",
+  },
+  teams: [
+    {
+      name: "Acme Inc",
+      logo: GalleryVerticalEnd,
+      plan: "Enterprise",
+    },
+
+  ],
   navMain: [
     {
-      title: "Getting Started",
+      title: "Property Management",
       url: "#",
+      icon: GalleryVerticalEnd,
       items: [
         {
-          title: "Installation",
-          url: "#",
+          title: "All Properties",
+          url: "/dashboard/properties",
         },
         {
-          title: "Project Structure",
-          url: "#",
+          title: "Add Property",
+          url: "/dashboard/add-property"
+        },
+        {
+          title: "Pending Approval",
+          url: "/dashboard/pending",
+        },
+        {
+          title: "Sold / Rented",
+          url: "/dashboard/completed",
         },
       ],
     },
     {
-      title: "Build Your Application",
+      title: "Booking Management",
       url: "#",
+      icon: BookOpen,
       items: [
         {
-          title: "Routing",
-          url: "#",
+          title: "All Bookings",
+          url: "/dashboard/bookings",
         },
         {
-          title: "Data Fetching",
-          url: "#",
-          isActive: true,
-        },
-        {
-          title: "Rendering",
-          url: "#",
-        },
-        {
-          title: "Caching",
-          url: "#",
-        },
-        {
-          title: "Styling",
-          url: "#",
-        },
-        {
-          title: "Optimizing",
-          url: "#",
-        },
-        {
-          title: "Configuring",
-          url: "#",
-        },
-        {
-          title: "Testing",
-          url: "#",
-        },
-        {
-          title: "Authentication",
-          url: "#",
-        },
-        {
-          title: "Deploying",
-          url: "#",
-        },
-        {
-          title: "Upgrading",
-          url: "#",
-        },
-        {
-          title: "Examples",
-          url: "#",
+          title: "Cancelled Bookings",
+          url: "/dashboard/cancelled",
         },
       ],
     },
     {
-      title: "API Reference",
+      title: "User Management",
       url: "#",
+      icon: Bot,
       items: [
         {
-          title: "Components",
-          url: "#",
+          title: "All Users",
+          url: "/dashboard/users",
         },
         {
-          title: "File Conventions",
-          url: "#",
-        },
-        {
-          title: "Functions",
-          url: "#",
-        },
-        {
-          title: "next.config.js Options",
-          url: "#",
-        },
-        {
-          title: "CLI",
-          url: "#",
-        },
-        {
-          title: "Edge Runtime",
-          url: "#",
+          title: "Add Admin",
+          url: "/dashboard/add-admin",
         },
       ],
     },
     {
-      title: "Architecture",
-      url: "#",
-      items: [
-        {
-          title: "Accessibility",
-          url: "#",
-        },
-        {
-          title: "Fast Refresh",
-          url: "#",
-        },
-        {
-          title: "Next.js Compiler",
-          url: "#",
-        },
-        {
-          title: "Supported Browsers",
-          url: "#",
-        },
-        {
-          title: "Turbopack",
-          url: "#",
-        },
-      ],
+      title: "Reports & Revenue",
+      url: "/dashboard/reports",
+      icon: Settings2,
     },
-    {
-      title: "Community",
-      url: "#",
-      items: [
-        {
-          title: "Contribution Guide",
-          url: "#",
-        },
-      ],
-    },
-  ],
+  ]
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar {...props}>
+    <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
-              <a href="#">
-                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                  <GalleryVerticalEnd className="size-4" />
-                </div>
-                <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-medium">Documentation</span>
-                  <span className="">v1.0.0</span>
-                </div>
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        {/* Logo Section */}
+        <Link href="/" className="flex items-center space-x-2 group">
+          <div className="flex items-center gap-2">
+            {/* Simple House Icon matching the brand */}
+            <div className="w-8 h-8 bg-secondary rounded-sm flex items-center justify-center">
+              <span className="text-primary font-bold text-xl">EB</span>
+            </div>
+          </div>
+        </Link>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarMenu>
-            {data.navMain.map((item) => (
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild>
-                  <a href={item.url} className="font-medium">
-                    {item.title}
-                  </a>
-                </SidebarMenuButton>
-                {item.items?.length ? (
-                  <SidebarMenuSub>
-                    {item.items.map((item) => (
-                      <SidebarMenuSubItem key={item.title}>
-                        <SidebarMenuSubButton asChild isActive={item.isActive}>
-                          <a href={item.url}>{item.title}</a>
-                        </SidebarMenuSubButton>
-                      </SidebarMenuSubItem>
-                    ))}
-                  </SidebarMenuSub>
-                ) : null}
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-        </SidebarGroup>
+        <NavMain items={data.navMain} />
       </SidebarContent>
+      <SidebarFooter>
+        <Link className="flex justify-center" href="/">
+          <Button variant="outline" className="flex items-center gap-2">
+            <ArrowLeft size={16} />
+            Back to Home
+          </Button>
+        </Link>
+        <NavUser user={data.user} />
+      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   )

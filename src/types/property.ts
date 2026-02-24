@@ -7,8 +7,6 @@ export interface TProperty {
     id?: string;
     title?: string;
     price?: number;
-    price_usd?: number;
-    price_local?: number;
     currency?: string;
     location?: string;
     city: string;
