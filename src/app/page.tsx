@@ -1,4 +1,5 @@
 import FeaturedProperties from "@/components/pages/home/FeaturedProperties";
+import { Footer } from "@/components/pages/home/Footer";
 import HeroSection from "@/components/pages/home/HeroSection";
 import { Navbar } from "@/components/pages/home/Navbar";
 import WhyChoose from "@/components/pages/home/WhyChoose";
@@ -10,6 +11,7 @@ export default function Home() {
       <HeroSection></HeroSection>
       <FeaturedProperties />
       <WhyChoose />
+      <Footer />
     </div>
   );
 }
