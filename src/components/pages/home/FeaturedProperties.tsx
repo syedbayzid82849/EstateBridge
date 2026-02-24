@@ -46,7 +46,7 @@ const FeaturedProperties = () => {
                     viewport={{ once: true }}
                     className="text-center mb-12"
                 >
-                    <span className="text-accent font-semibold text-sm tracking-widest uppercase">
+                    <span className=" font-semibold text-sm tracking-widest uppercase">
                         Handpicked For You
                     </span>
 

@@ -1,6 +1,7 @@
 import FeaturedProperties from "@/components/pages/home/FeaturedProperties";
 import HeroSection from "@/components/pages/home/HeroSection";
 import { Navbar } from "@/components/pages/home/Navbar";
+import WhyChoose from "@/components/pages/home/WhyChoose";
 
 export default function Home() {
   return (
@@ -8,6 +9,7 @@ export default function Home() {
       <Navbar />
       <HeroSection></HeroSection>
       <FeaturedProperties />
+      <WhyChoose />
     </div>
   );
 }
