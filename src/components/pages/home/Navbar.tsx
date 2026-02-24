@@ -143,7 +143,7 @@ export function Navbar() {
                                     </DropdownMenuLabel>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem asChild>
-                                        <Link href="/dashboard" className="cursor-pointer">
+                                        <Link href="/dashboard/overview" className="cursor-pointer">
                                             <LayoutDashboard className="mr-2 h-4 w-4" />
                                             Dashboard
                                         </Link>
@@ -211,7 +211,7 @@ export function Navbar() {
                                     </div>
                                 ) : isAuthenticated ? (
                                     <>
-                                        <Link href="/dashboard" className="text-lg font-medium hover:text-secondary" onClick={() => setIsOpen(false)}>
+                                        <Link href="/dashboard/overview" className="text-lg font-medium hover:text-secondary" onClick={() => setIsOpen(false)}>
                                             Dashboard
                                         </Link>
                                         <Link href="/profile" className="text-lg font-medium hover:text-secondary" onClick={() => setIsOpen(false)}>

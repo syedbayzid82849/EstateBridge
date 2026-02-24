@@ -38,6 +38,7 @@ export default function SignupPage() {
         }),
       });
       const result = await response.json();
+       console.log(result);
       if (response.ok) {
         setToken(result.token);
         toast.success('Registration successful!');

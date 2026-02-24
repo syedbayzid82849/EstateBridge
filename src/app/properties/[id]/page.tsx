@@ -222,11 +222,11 @@ export default function PropertyDetailPage() {
                     </div>
 
                     {/* Amenities */}
-                    {amenities?.length > 0 && (
+                    {(amenities?.length ?? 0) > 0 && (
                         <div>
                             <h2 className="text-xl font-bold text-gray-900 mb-3">Amenities</h2>
                             <div className="flex flex-wrap gap-2">
-                                {amenities.map((amenity) => (
+                                {amenities?.map((amenity) => (
                                     <span
                                         key={amenity}
                                         className="border border-gray-200 text-gray-700 text-sm px-4 py-1.5 rounded-full hover:border-gray-400 transition-colors"
